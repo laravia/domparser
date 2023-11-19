@@ -1,0 +1,52 @@
+{
+    "minimum-stability": "dev",
+    "name": "laravia/domparser",
+    "description": "laravia package domparser for heart",
+    "license": "license",
+    "authors": [
+        {
+            "name": "laravia",
+            "email": "code@laravia.art",
+            "homepage": "https://laravia.art"
+        }
+    ],
+    "homepage": "https://laravia.art",
+    "keywords": [
+        "Laravel",
+        "Laravia",
+        "Domparser"
+    ],
+    "require": {
+        "symfony/dom-crawler": "^6.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Laravia\\Domparser\\App\\": "./app",
+            "Laravia\\Domparser\\Database\\": "./database",
+            "Laravia\\Domparser\\Database\\Seeders\\": "./database/seeders"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laravia\\Domparser\\App\\": "./app",
+            "Laravia\\Domparser\\Database\\": "./database",
+            "Laravia\\Domparser\\Database\\Seeders\\": "./database/seeders",
+            "Laravia\\Domparser\\Tests\\": "./tests"
+        }
+    },
+    "scripts": {
+        "post-root-package-update": []
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laravia\\Domparser\\App\\Providers\\DomparserServiceProvider"
+            ],
+            "aliases": {
+                "LaraviaDomparser": "Laravia\\Domparser\\App\\Domparser"
+            }
+        }
+    }
+}
