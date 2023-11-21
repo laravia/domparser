@@ -19,7 +19,9 @@ class DomparserListLayout extends Table
 
             TD::make('url', 'Url')->sort(),
 
-            TD::make('element', 'Element')->sort(),
+            TD::make('filter', 'Filter')->sort(),
+
+            TD::make('searchkey', 'Searchkey')->sort(),
 
             TD::make('cronjob', 'Cronjob')->sort(),
 
