@@ -12,7 +12,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('url');
-            $table->string('element')->nullable();
+            $table->string('filter')->nullable();
+            $table->string('searchkey')->nullable();
             $table->string('cronjob')->nullable();
             $table->string('email')->nullable();
             $table->boolean('unique')->nullable()->default(true);
