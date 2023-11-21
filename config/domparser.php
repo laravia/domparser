@@ -8,3 +8,14 @@ $config['domparser']['links'] = [
         'sort' => 10
     ]
 ];
+
+$config['domparser']['commands'] = [
+    'Laravia\Domparser\App\Console\Commands\DomparserParseCommand',
+];
+
+$config['domparser']['schedules'] = [
+    [
+        'laravia:domparser:parse',
+        '* * * * *'
+    ],
+];
