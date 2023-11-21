@@ -23,16 +23,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Laravia\\Domparser\\App\\": "./app",
-            "Laravia\\Domparser\\Database\\": "./database",
-            "Laravia\\Domparser\\Database\\Seeders\\": "./database/seeders"
+            "Laravia\\Domparser\\App\\": "./app/",
+            "Laravia\\Domparser\\Database\\": "./database/",
+            "Laravia\\Domparser\\Database\\Seeders\\": "./database/seeders/",
+            "Laravia\\Domparser\\Database\\Factories\\": "./database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Laravia\\Domparser\\App\\": "./app",
-            "Laravia\\Domparser\\Database\\": "./database",
-            "Laravia\\Domparser\\Database\\Seeders\\": "./database/seeders",
             "Laravia\\Domparser\\Tests\\": "./tests"
         }
     },
