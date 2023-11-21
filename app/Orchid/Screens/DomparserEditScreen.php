@@ -3,7 +3,6 @@
 namespace Laravia\Domparser\App\Orchid\Screens;
 
 use Illuminate\Http\Request;
-use Laravia\Heart\App\Laravia;
 use Laravia\Domparser\App\Models\Domparser as ModelsDomparser;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Input;
@@ -57,7 +56,6 @@ class DomparserEditScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::columns([
                 Layout::rows([
                     Input::make('domparser.url')
                         ->title('Url')
@@ -65,37 +63,45 @@ class DomparserEditScreen extends Screen
                         ->required(),
                 ]),
                 Layout::rows([
-                    Input::make('domparser.element')
-                        ->title('Element')
-                        ->placeholder('Element')
+                    Input::make('domparser.filter')
+                        ->title('Filter')
+                        ->placeholder('Filter')
                         ->required(),
                 ]),
                 Layout::rows([
-                    Select::make('domparser.cronjob')
+                    Input::make('domparser.searchkey')
+                        ->title('Searchkey')
+                        ->placeholder('Searchkey')
+                        ->required(),
+                ]),
+                Layout::rows([
+                    Input::make('domparser.cronjob')
                         ->title('Cronjob')
                         ->placeholder('Cronjob Format (* * * * *)')
                         ->required()
                 ]),
                 Layout::rows([
-                    Select::make('domparser.email')
+                    Input::make('domparser.email')
                         ->title('Email')
                         ->placeholder('Email (if empty the default EMAIL_RECIPIENT_EMAIL will be used))')
-                        ->required()
                 ]),
-                CheckBox::make('domparser.unique')
-                ->title('Unique')
-                ->placeholder('Unique')
-                ->value(true)
-                ->style('margin-bottom:1.25em;'),
+                Layout::rows([
+                    CheckBox::make('domparser.unique')
+                        ->title('Unique')
+                        ->placeholder('Unique')
+                        ->value(true)
+                        ->style('margin-bottom:1.25em;'),
                 ]),
-
 
         ];
     }
 
     public function createOrUpdate(Request $request)
     {
-        $this->domparser->fill($request->get('domparser'))->save();
+        $domparser = $request->get('domparser');
+        $domparser['unique'] = isset($domparser['unqiue']);
+
+        $this->domparser->fill($domparser)->save();
 
         Alert::info('You have successfully created a domparser.');
 
