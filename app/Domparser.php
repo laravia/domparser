@@ -73,8 +73,8 @@ class Domparser
             ]);
 
             Laravia::sendEmail(
-                "Domparser found",
                 "Domparser found {$this->domparser->searchkey} in {$this->domparser->url}",
+                $match,
                 $this->domparser->email ?: env('MAIL_DEFAULT_RECIPIENT')
             );
 
