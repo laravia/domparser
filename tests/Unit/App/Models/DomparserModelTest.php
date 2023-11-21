@@ -23,6 +23,7 @@ class DomparserModelTest extends TestCase
             'cronjob' => $domparser->cronjob,
             'email' => $domparser->email,
             'unique' => $domparser->unique,
+            'reset_database_after_seconds' => $domparser->reset_database_after_seconds,
         ]);
 
         $this->assertDatabaseHas('domparsers', [
@@ -32,6 +33,7 @@ class DomparserModelTest extends TestCase
             'cronjob' => $domparser->cronjob,
             'email' => $domparser->email,
             'unique' => $domparser->unique,
+            'reset_database_after_seconds' => $domparser->reset_database_after_seconds,
         ]);
     }
 }
