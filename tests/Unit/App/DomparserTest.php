@@ -23,7 +23,7 @@ class DomparserTest extends TestCase
     }
     public function testFindSucceed()
     {
-        $this->createTestData('/site for testing/i');
+        $this->createTestData('/site for testing.*?(?=end)/u');
         $domparser = new Domparser($this->testData->id);
         $this->assertTrue($domparser->find());
 
@@ -43,7 +43,7 @@ class DomparserTest extends TestCase
     {
         Mail::fake();
 
-        $this->createTestData('/site for testing/i');
+        $this->createTestData('/site for testing.*?(?=end)/u');
         $domparser = new Domparser($this->testData->id);
 
         $this->assertTrue($domparser->run());
@@ -56,7 +56,7 @@ class DomparserTest extends TestCase
     {
         Mail::fake();
 
-        $this->createTestData('/site for testing/i');
+        $this->createTestData('/site for testing.*?(?=end)/u');
         $domparser = new Domparser($this->testData->id);
         $domparser->run();
 
@@ -72,7 +72,7 @@ class DomparserTest extends TestCase
     {
         Mail::fake();
 
-        $this->createTestData('/site for testing/i', 100, false);
+        $this->createTestData('/site for testing.*?(?=end)/u', 100, false);
         $domparser = new Domparser($this->testData->id);
         $domparser->run();
 
@@ -124,7 +124,7 @@ class DomparserTest extends TestCase
 
     protected function domparserlogData($resetDatabaseAfterSeconds = 2)
     {
-        $this->createTestData('/site for testing/i', 1);
+        $this->createTestData('/site for testing.*?(?=end)/u', 1);
         $domparser = new Domparser($this->testData->id);
         \DB::table('domparserlogs')->insert(
             [
