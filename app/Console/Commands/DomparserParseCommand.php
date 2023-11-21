@@ -2,6 +2,7 @@
 
 namespace Laravia\Domparser\App\Console\Commands;
 
+use Cron\CronExpression;
 use Illuminate\Console\Command;
 use Laravia\Domparser\App\Domparser as AppDomparser;
 use Laravia\Domparser\App\Models\Domparser;
@@ -13,11 +14,18 @@ class DomparserParseCommand extends Command
 
     public function parse()
     {
-        foreach(Domparser::all() as $domparser) {
+        foreach (Domparser::all() as $domparser) {
 
-            $appDomparser = new AppDomparser($domparser->id);
-            if($this->option('force')){
+            if ($this->option('force')) {
+                $appDomparser = new AppDomparser($domparser->id);
                 $appDomparser->run();
+            } else {
+                $cron = new CronExpression($domparser->cronjob);
+                $cron->isDue();
+                if ($cron->isDue()) {
+                    $appDomparser = new AppDomparser($domparser->id);
+                    $appDomparser->run();
+                }
             }
         }
     }

@@ -17,7 +17,8 @@
         "Domparser"
     ],
     "require": {
-        "symfony/dom-crawler": "^6.0"
+        "symfony/dom-crawler": "^6.0",
+        "dragonmantank/cron-expression":"^3.3"
     },
     "require-dev": {
     },
