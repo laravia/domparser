@@ -14,26 +14,24 @@ class DomparserModelTest extends TestCase
 
     public function testCreateDomparser()
     {
-        $url = $this->faker->url;
-        $element = $this->faker->word;
-        $cronjob = "* * * * *";
-        $email = $this->faker->email;
-        $unique = true;
+        $domparser = Domparser::factory()->make();
 
         Domparser::create([
-            'url' => $url,
-            'element' => $element,
-            'cronjob' => $cronjob,
-            'email' => $email,
-            'unique' => $unique,
+            'url' => $domparser->url,
+            'filter' => $domparser->filter,
+            'searchkey' => $domparser->searchkey,
+            'cronjob' => $domparser->cronjob,
+            'email' => $domparser->email,
+            'unique' => $domparser->unique,
         ]);
 
         $this->assertDatabaseHas('domparsers', [
-            'url' => $url,
-            'element' => $element,
-            'cronjob' => $cronjob,
-            'email' => $email,
-            'unique' => $unique,
+            'url' => $domparser->url,
+            'filter' => $domparser->filter,
+            'searchkey' => $domparser->searchkey,
+            'cronjob' => $domparser->cronjob,
+            'email' => $domparser->email,
+            'unique' => $domparser->unique,
         ]);
     }
 }
