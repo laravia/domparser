@@ -54,6 +54,8 @@ class Domparser
     {
         $slug = \Str::slug(trim($match));
 
+        $this->resetDomparserLogDatabase();
+
         if (
             !DB::table('domparserlogs')
                 ->where('domparser_id', $this->domparser->id)
@@ -80,5 +82,16 @@ class Domparser
         }
 
         return false;
+    }
+
+    public function resetDomparserLogDatabase()
+    {
+        if ($this->domparser->reset_database_after_seconds) {
+            $seconds = $this->domparser->reset_database_after_seconds;
+            $date = now()->subSeconds($seconds);
+            DB::table('domparserlogs')
+                ->where('created_at', '<', $date)
+                ->delete();
+        }
     }
 }

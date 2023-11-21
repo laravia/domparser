@@ -21,19 +21,6 @@ class DomparserTest extends TestCase
     {
         $this->assertMethodInClassExists('parse', Domparser::class);
     }
-
-    protected function createTestData($searchkey)
-    {
-        $url = Laravia::path()->get('domparser') . "/tests/documents/test.html";
-        $filter = 'div#testdiv';
-
-        $this->testData =  ModelsDomparser::factory([
-            'url' => $url,
-            'filter' => $filter,
-            'searchkey' => $searchkey,
-        ])->create();
-    }
-
     public function testFindSucceed()
     {
         $this->createTestData('/site for testing/i');
@@ -79,5 +66,60 @@ class DomparserTest extends TestCase
 
         $this->testData->delete();
         \DB::table('domparserlogs')->truncate();
+    }
+
+
+
+    public function testDatabaseResetAfterSecondsSuccessful()
+    {
+        $this->domparserlogData(2);
+        $this->assertEquals(
+            0,
+            \DB::table('domparserlogs')
+                ->where('domparser_id', $this->testData->id)
+                ->count()
+        );
+        $this->testData->delete();
+    }
+
+    public function testDatabaseResetAfterSecondsFailed()
+    {
+        $this->domparserlogData(1);
+        $this->assertEquals(
+            1,
+            \DB::table('domparserlogs')
+                ->where('domparser_id', $this->testData->id)
+                ->count()
+        );
+        $this->testData->delete();
+    }
+
+    protected function createTestData($searchkey, $reset_database_after_seconds = 100)
+    {
+        $url = Laravia::path()->get('domparser') . "/tests/documents/test.html";
+        $filter = 'div#testdiv';
+
+        $this->testData =  ModelsDomparser::factory([
+            'url' => $url,
+            'filter' => $filter,
+            'searchkey' => $searchkey,
+            'reset_database_after_seconds' => $reset_database_after_seconds,
+        ])->create();
+    }
+
+    protected function domparserlogData($resetDatabaseAfterSeconds = 2)
+    {
+        $this->createTestData('/site for testing/i', 1);
+        $domparser = new Domparser($this->testData->id);
+        \DB::table('domparserlogs')->insert(
+            [
+                'domparser_id' => $this->testData->id,
+                'slug' => 'test',
+                'result' => 'test',
+                'created_at' => now()->subSeconds($resetDatabaseAfterSeconds),
+                'updated_at' => now(),
+            ]
+        );
+        $domparser->resetDomparserLogDatabase();
     }
 }
