@@ -27,8 +27,10 @@ class DomparserListLayout extends Table
 
             TD::make('email', 'Email')->sort(),
 
+            TD::make('reset_database_after_seconds', 'Reset Database (seconds)')->sort(),
+
             TD::make('unique', 'Unique')->sort()->render(function (Domparser $domparser) {
-                return $domparser->unique ? 'Yes' : 'No';
+                return $domparser->unique ? __('laravia.heart::common.yes') : __('laravia.heart::common.no');
             }),
 
 

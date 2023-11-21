@@ -17,7 +17,8 @@ class DomparserFactory extends Factory
             'searchkey' => 'test',
             'cronjob' => "* * * * *",
             'email' => $this->faker->email,
-            'unique' => true
+            'unique' => true,
+            'reset_database_after_seconds' => 600,
         ];
     }
 }

@@ -8,7 +8,6 @@ use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Input;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Actions\Button;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 
@@ -79,6 +78,14 @@ class DomparserEditScreen extends Screen
                         ->title('Cronjob')
                         ->placeholder('Cronjob Format (* * * * *)')
                         ->required()
+                        ->help('<a href="https://crontab.guru/" target="_blank">Cronjob Helper | crontab.guru</a>')
+                ]),
+                Layout::rows([
+                    Input::make('domparser.reset_database_after_seconds')
+                        ->title('Reset database after seconds')
+                        ->placeholder('Sekunden als Zahl, ohne s hinten dran. Wenn leer, dann wird nicht zurückgesetzt.')
+                        ->required()
+                        ->help('1 Stunde = 3600, 1 Tag = 86400, 1 Woche = 604800, 1 Monat = 2592000, 3 Monate = 7776000,  1 Jahr = 31536000')
                 ]),
                 Layout::rows([
                     Input::make('domparser.email')
@@ -90,7 +97,8 @@ class DomparserEditScreen extends Screen
                         ->title('Unique')
                         ->placeholder('Unique')
                         ->value(true)
-                        ->style('margin-bottom:1.25em;'),
+                        ->style('margin-bottom:1.25em;')
+                        ->help('wenn aktiviert, dann wird für jeden Treffer nur eine Email verschickt. Sonst jedes Mal')
                 ]),
 
         ];

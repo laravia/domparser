@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('cronjob')->nullable();
             $table->string('email')->nullable();
             $table->boolean('unique')->nullable()->default(true);
+            $table->string('reset_database_after_seconds')->nullable();
         });
     }
 

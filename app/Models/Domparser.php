@@ -17,6 +17,7 @@ class Domparser extends Model
         'cronjob',
         'email',
         'unique',
+        'reset_database_after_seconds'
     ];
 
     protected static function newFactory()
