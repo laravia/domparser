@@ -47,6 +47,7 @@ class DomparserScreen extends Screen
 
     public function remove(Request $request): void
     {
+        \DB::table('domparserlogs')->where('domparser_id', $request->get('id'))->delete();
         ModelsDomparser::findOrFail($request->get('id'))->delete();
 
         Alert::info('You have successfully deleted the domparser.');
