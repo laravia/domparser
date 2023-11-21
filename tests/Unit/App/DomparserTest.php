@@ -52,7 +52,7 @@ class DomparserTest extends TestCase
         \DB::table('domparserlogs')->truncate();
     }
 
-    public function testRunSucceedButDoubleResultAndStateFalseReturned()
+    public function testRunSucceedButDoubleResultAndStateReturnedFalse()
     {
         Mail::fake();
 
@@ -68,7 +68,21 @@ class DomparserTest extends TestCase
         \DB::table('domparserlogs')->truncate();
     }
 
+    public function testRunSucceedButDoubleResultAndStateReturnedTrueBecauseOfNotUnique()
+    {
+        Mail::fake();
 
+        $this->createTestData('/site for testing/i', 100, false);
+        $domparser = new Domparser($this->testData->id);
+        $domparser->run();
+
+        //run second time for testing with empty result
+        $domparser = new Domparser($this->testData->id);
+        $this->assertTrue($domparser->run());
+
+        $this->testData->delete();
+        \DB::table('domparserlogs')->truncate();
+    }
 
     public function testDatabaseResetAfterSecondsSuccessful()
     {
@@ -94,7 +108,7 @@ class DomparserTest extends TestCase
         $this->testData->delete();
     }
 
-    protected function createTestData($searchkey, $reset_database_after_seconds = 100)
+    protected function createTestData($searchkey, $reset_database_after_seconds = 100, $unique = true)
     {
         $url = Laravia::path()->get('domparser') . "/tests/documents/test.html";
         $filter = 'div#testdiv';
@@ -103,6 +117,7 @@ class DomparserTest extends TestCase
             'url' => $url,
             'filter' => $filter,
             'searchkey' => $searchkey,
+            'unique' => $unique,
             'reset_database_after_seconds' => $reset_database_after_seconds,
         ])->create();
     }

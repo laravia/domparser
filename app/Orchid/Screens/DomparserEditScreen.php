@@ -107,7 +107,7 @@ class DomparserEditScreen extends Screen
     public function createOrUpdate(Request $request)
     {
         $domparser = $request->get('domparser');
-        $domparser['unique'] = isset($domparser['unqiue']);
+        $domparser['unique'] = isset($domparser['unique']);
 
         $this->domparser->fill($domparser)->save();
 

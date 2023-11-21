@@ -61,8 +61,8 @@ class Domparser
                 ->where('domparser_id', $this->domparser->id)
                 ->where('slug', $slug)
                 ->exists()
-            &&
-            $this->domparser->unique
+            ||
+            !$this->domparser->unique
         ) {
             DB::table('domparserlogs')->insert([
                 'domparser_id' => $this->domparser->id,
