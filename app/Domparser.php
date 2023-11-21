@@ -41,41 +41,44 @@ class Domparser
 
     public function run()
     {
-
         $state = false;
         if ($this->find()) {
-
             foreach ($this->matches[0] as $match) {
-
-                $slug = \Str::slug(trim($match));
-
-                if (
-                    DB::table('domparserlogs')
-                    ->where('domparser_id', $this->domparser->id)
-                    ->where('slug', $slug)
-                    ->exists()
-                    &&
-                    $this->domparser->unique
-                ) {
-                    continue;
-                }
-
-                DB::table('domparserlogs')->insert([
-                    'domparser_id' => $this->domparser->id,
-                    'slug' => $slug,
-                    'result' => $match,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-                Laravia::sendEmail(
-                    "Domparser found",
-                    "Domparser found {$this->domparser->searchkey} in {$this->domparser->url}",
-                    $this->domparser->email ?: env('MAIL_DEFAULT_RECIPIENT')
-                );
-                $state = true;
+                $state = $this->runElement($match);
             }
         }
         return $state;
+    }
+
+    public function runElement($match)
+    {
+        $slug = \Str::slug(trim($match));
+
+        if (
+            !DB::table('domparserlogs')
+                ->where('domparser_id', $this->domparser->id)
+                ->where('slug', $slug)
+                ->exists()
+            &&
+            $this->domparser->unique
+        ) {
+            DB::table('domparserlogs')->insert([
+                'domparser_id' => $this->domparser->id,
+                'slug' => $slug,
+                'result' => $match,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            Laravia::sendEmail(
+                "Domparser found",
+                "Domparser found {$this->domparser->searchkey} in {$this->domparser->url}",
+                $this->domparser->email ?: env('MAIL_DEFAULT_RECIPIENT')
+            );
+
+            return true;
+        }
+
+        return false;
     }
 }
