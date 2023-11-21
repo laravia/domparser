@@ -74,7 +74,7 @@ class Domparser
 
             Laravia::sendEmail(
                 "Domparser found {$this->domparser->searchkey} in {$this->domparser->url}",
-                $match,
+                $match." = <a href='".$this->domparser->url."' target='_blank'>".$this->domparser->url."</a>",
                 $this->domparser->email ?: env('MAIL_DEFAULT_RECIPIENT')
             );
 
